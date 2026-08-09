@@ -1,0 +1,15 @@
+target/
+.env
+*.env
+*.txt
+
+# Material criptográfico
+**/saml/*.key
+**/saml/*.crt
+**/saml/*.p12
+
+# IDE
+.idea/
+*.iml
+nbproject/private/
+.vscode/
