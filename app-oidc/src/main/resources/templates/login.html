@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 420px; margin: 80px auto; padding: 0 20px; }
+        .btn { display: block; padding: 14px; margin: 12px 0; text-align: center;
+               text-decoration: none; border-radius: 8px; border: 1px solid #ddd; color: #222; }
+        .kc { background: #EEEDFE; border-color: #7F77DD; }
+        .gg { background: #fff; }
+    </style>
+</head>
+<body>
+    <h1>Iniciar sesión</h1>
+    <p>Elige tu proveedor de identidad:</p>
+    <a class="btn kc" href="/oauth2/authorization/keycloak">Iniciar sesión con Keycloak</a>
+    <a class="btn gg" href="/oauth2/authorization/google">Iniciar sesión con Google</a>
+</body>
+</html>
