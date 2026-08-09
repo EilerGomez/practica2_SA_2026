@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Página protegida</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        td, th { border: 1px solid #ddd; padding: 8px 12px; text-align: left; font-size: 14px; }
+        th { background: #f5f5f5; }
+        pre { background: #f5f5f5; padding: 16px; overflow-x: auto; font-size: 12px; word-break: break-all; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Página protegida</h1>
+    <p>Si ves esto, la autenticación por OIDC funcionó.</p>
+
+    <h2>Datos del usuario</h2>
+    <table>
+        <tr><th>Nombre</th><td th:text="${nombre}"></td></tr>
+        <tr><th>Email</th><td th:text="${email}"></td></tr>
+        <tr><th>Subject (ID único)</th><td th:text="${subject}"></td></tr>
+    </table>
+
+    <h2>Todos los claims del ID token</h2>
+    <table>
+        <tr th:each="c : ${claims}">
+            <th th:text="${c.key}"></th>
+            <td th:text="${c.value}"></td>
+        </tr>
+    </table>
+
+    <h2>ID token en crudo (JWT)</h2>
+    <pre th:text="${idToken}"></pre>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Cerrar sesión</button>
+    </form>
+</body>
+</html>

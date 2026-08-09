@@ -1,10 +1,10 @@
-package com.poc.app_oidc;
+package com.poc.app_saml;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AppOidcApplicationTests {
+class AppSamlApplicationTests {
 
 	@Test
 	void contextLoads() {

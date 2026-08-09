@@ -1,0 +1,91 @@
+**App OIDC
+Client secret:Ef9iqaZGXdmfUUfxbpfPZ6BI1CSR9dQZ
+
+
+
+Para el video:
+Vamos a configurarlos:
+
+Dentro del client app-saml, ve a la pestaña Client scopes
+Clic en el que se llama app-saml-dedicated
+Configure a new mapper → elige User Property
+Name: email
+Property: email
+SAML Attribute Name: email
+SAML Attribute NameFormat: Basic
+Save
+Repite para el nombre: Add mapper → By configuration → User Property
+Name: firstName
+Property: firstName
+SAML Attribute Name: firstName
+SAML Attribute NameFormat: Basic
+Save
+
+Esto que acabas de hacer manualmente es exactamente lo que OIDC te da gratis con scope=openid profile email. Anótalo, es uno de tus mejores puntos para el video.
+
+
+
+
+
+Paso 6: Los dos endpoints de descubrimiento
+
+Esto es lo más visual que vas a tener para explicar el contraste. Abre estas dos URLs en el navegador:
+
+OIDC — documento de descubrimiento (JSON):
+
+http://localhost:8080/realms/poc-auth/.well-known/openid-configuration
+
+SAML — metadata del IdP (XML):
+
+http://localhost:8080/realms/poc-auth/protocol/saml/descriptor
+
+Ambos sirven para lo mismo: le dicen a la aplicación cliente dónde están los endpoints del IdP y con qué clave verificar las firmas. Pero mira la diferencia:
+
+	                OIDC	                                SAML
+Formato	            JSON	                                XML
+Tamaño	            ~3 KB, legible de un vistazo	        mucho más denso
+Ruta	            Estandarizada (.well-known/)	        Propia de cada implementación
+La llave pública	En otro endpoint (jwks_uri), rotable	Certificado X.509 incrustado
+
+Ese contraste visual — JSON limpio contra XML con certificados incrustados — resume en diez segundos la diferencia de filosofía entre ambos protocolos. Ponlo lado a lado en el video.
+
+WebController.java
+
+Ruta: app-oidc/src/main/java/com/poc/appoidc/WebController.java
+
+java
+package com.poc.appoidc;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class WebController {
+
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/publica")
+    public String publica() {
+        return "publica";
+    }
+
+    @GetMapping("/privada")
+    public String privada(@AuthenticationPrincipal OidcUser user, Model model) {
+        model.addAttribute("nombre", user.getFullName());
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("subject", user.getSubject());
+        model.addAttribute("claims", user.getClaims());
+        model.addAttribute("idToken", user.getIdToken().getTokenValue());
+        return "privada";
+    }
+}
+
+El objeto OidcUser es lo interesante aquí. Spring ya validó el ID token, verificó su firma contra las llaves públicas de Keycloak, comprobó que no esté expirado, y te entrega los datos ya listos. Los métodos getEmail() y getFullName() funcionan porque OIDC estandariza esos claims. Anota eso para el video.
+
+
