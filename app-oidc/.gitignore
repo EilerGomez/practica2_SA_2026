@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+*.txt
+# Material criptográfico
+**/saml/*.key
+**/saml/*.crt
+**/saml/*.p12
+
