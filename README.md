@@ -14,8 +14,6 @@ practica2_SA_2026/
 ├── docker-compose.yml      Keycloak (proveedor de identidad)
 ├── app-oidc/               Aplicación cliente OAuth 2.0 + OpenID Connect
 ├── app-saml/               Aplicación cliente SAML 2.0
-├── docs/
-│   └── assertion_saml.xml  Ejemplo de aserción SAML decodificada
 ├── EnsayoPractica2.pdf     Ensayo comparativo de ambos protocolos
 ├── .env.example            Plantilla de variables de entorno
 └── .gitignore
